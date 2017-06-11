@@ -31,11 +31,13 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
         var street: String!
     }
     
+    var eventTime = [String]()
+    var eventLocation = [String]()
+    
     var events = [event]()
     
     typealias JSONStandard = [String: AnyObject]
     let URL_EVENT = "https://goeventapp.herokuapp.com/v1.0/events"
-  
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,8 +162,8 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
                     }
                 }
             }
-
-          self.collectionView.reloadData()
+          self.formatData()
+          //self.collectionView.reloadData()
         }
         catch{
             print(error)
@@ -169,11 +171,30 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
         
     }
     
-   /* func formatData() {
+    func formatData() {
         for i in 0..<events.count{
-            let start = events[i].eventStartTime
+            
+            let startTime = events[i].eventStartTime
+            let endTime = events[i].eventEndTime
+            
+            let dateFormatter = DateFormatter()
+            let tempLocale = dateFormatter.locale
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            let start = dateFormatter.date(from: startTime!)!
+            let end = dateFormatter.date(from: endTime!)!
+            dateFormatter.dateFormat = "E,MMM d,HH:mm"
+            dateFormatter.locale = tempLocale
+            let formatStartTime = dateFormatter.string(from: start)
+            dateFormatter.dateFormat = "HH:mm"
+            dateFormatter.locale = tempLocale
+            let formatEndTime = dateFormatter.string(from: end)
+            eventTime = [formatStartTime + "-" + formatEndTime]
+            print(eventTime)
+            
+            eventLocation = [events[i].city + "," + events[i].country + "," + events[i].street]
         }
-    }*/
+    }
+ 
     
 
        
@@ -196,7 +217,9 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
             let data = NSData(contentsOf: (imgURL as URL?)!)
             cell.eventImage?.image = UIImage(data: data! as Data)
             }
-            
+            cell.eventCategortLabel.text = events[indexPath.row].eventCategory
+            cell.eventLocationLabel.text = eventLocation[indexPath.row]
+            cell.eventDateLabel.text = eventTime[indexPath.row]
             
             return cell
         } else {
