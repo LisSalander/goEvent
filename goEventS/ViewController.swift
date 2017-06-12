@@ -31,10 +31,13 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
         var street: String!
     }
     
-    var eventTime = [String]()
-    var eventLocation = [String]()
+    struct eventFormat {
+        var eventTime: String!
+        var eventLocation: String!
+    }
     
     var events = [event]()
+    var eventsFormat = [eventFormat]()
     
     typealias JSONStandard = [String: AnyObject]
     let URL_EVENT = "https://goeventapp.herokuapp.com/v1.0/events"
@@ -127,35 +130,35 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
                             if let _city = location["eventCategory"] as? String {
                                 city = _city
                             } else{
-                                city = " "
+                                city = ""
                             }
                             
                             var country: String
                             if let _country = location["country"] as? String {
                                 country  = _country
                             } else{
-                                country  = " "
+                                country  = ""
                             }
                             
                             var latitude: String
                             if let _latitude = location["latitude"] as? String {
                                 latitude  = _latitude
                             } else{
-                                latitude  = " "
+                                latitude  = ""
                             }
                             
                             var longitude: String
                             if let _longitude = location["longitude"] as? String {
                                 longitude  = _longitude
                             } else{
-                                longitude  = " "
+                                longitude  = ""
                             }
                             
                             var street: String
                             if let _street = location["street"] as? String {
                                 street  = _street
                             } else{
-                                street  = " "
+                                street  = ""
                             }
                     events.append(event.init(eventName: eventName, eventId: eventId, eventPicture: eventPicture, eventDescription: eventDescription, eventCategory: eventCategory, eventStartTime: eventStartTime, eventEndTime: eventEndTime, city: city, country: country, latitude: latitude, longitude: longitude, street: street))
                             
@@ -176,22 +179,48 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
             
             let startTime = events[i].eventStartTime
             let endTime = events[i].eventEndTime
+            var formatEndTime = String()
+            var formatStartTime = String()
             
-            let dateFormatter = DateFormatter()
-            let tempLocale = dateFormatter.locale
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            let start = dateFormatter.date(from: startTime!)!
-            let end = dateFormatter.date(from: endTime!)!
-            dateFormatter.dateFormat = "E,MMM d,HH:mm"
-            dateFormatter.locale = tempLocale
-            let formatStartTime = dateFormatter.string(from: start)
-            dateFormatter.dateFormat = "HH:mm"
-            dateFormatter.locale = tempLocale
-            let formatEndTime = dateFormatter.string(from: end)
-            eventTime = [formatStartTime + "-" + formatEndTime]
-            print(eventTime)
+            if startTime != " " {
+                let dateFormatter = DateFormatter()
+                let tempLocale = dateFormatter.locale
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                let start = dateFormatter.date(from: startTime!)!
+                dateFormatter.dateFormat = "E,MMM d,HH:mm"
+                dateFormatter.locale = tempLocale
+                formatStartTime = dateFormatter.string(from: start)
+            }
             
-            eventLocation = [events[i].city + "," + events[i].country + "," + events[i].street]
+            if endTime != " " {
+                
+                let dateFormatter = DateFormatter()
+                let tempLocale = dateFormatter.locale
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                let end = dateFormatter.date(from: endTime!)!
+                dateFormatter.dateFormat = "HH:mm"
+                dateFormatter.locale = tempLocale
+                formatEndTime = dateFormatter.string(from: end)
+            }
+            
+            let _eventTime = formatStartTime + "-" + formatEndTime
+            print(_eventTime)
+            
+            var city = events[i].city
+            if city != "" {
+                city = city! + ","
+            }
+            
+            var country = events[i].country
+            if (country != "" && events[i].street != "") {
+                country = country! + ","
+            }
+            
+            let _eventLocation = city! + country! + events[i].street
+            print(_eventLocation)
+            
+            eventsFormat.append(eventFormat.init(eventTime: _eventTime, eventLocation: _eventLocation))
+            self.collectionView.reloadData()
         }
     }
  
@@ -218,8 +247,8 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
             cell.eventImage?.image = UIImage(data: data! as Data)
             }
             cell.eventCategortLabel.text = events[indexPath.row].eventCategory
-            cell.eventLocationLabel.text = eventLocation[indexPath.row]
-            cell.eventDateLabel.text = eventTime[indexPath.row]
+            cell.eventLocationLabel.text = eventsFormat[indexPath.row].eventTime
+            cell.eventDateLabel.text = eventsFormat[indexPath.row].eventLocation
             
             return cell
         } else {
@@ -234,6 +263,15 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
             
             let detail = segue.destination as! DetailsView
             detail.detailName = events[indexPath.row].eventName
+            detail.detailCategory = events[indexPath.row].eventCategory
+            detail.detailDescription = events[indexPath.row].eventDescription
+            detail.city = events[indexPath.row].city
+            detail.country = events[indexPath.row].country
+            detail.street = events[indexPath.row].street
+            detail.latitude = events[indexPath.row].latitude
+            detail.longitude = events[indexPath.row].longitude
+            detail.detailPicture = events[indexPath.row].eventPicture
+            detail.detailTime = eventsFormat[indexPath.row].eventTime
         }
     }
 }
