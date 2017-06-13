@@ -26,8 +26,8 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
         var eventEndTime: String!
         var city: String!
         var country: String!
-        var latitude: String!
-        var longitude: String!
+        var latitude: NSNumber!
+        var longitude: NSNumber!
         var street: String!
     }
     
@@ -140,18 +140,18 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
                                 country  = ""
                             }
                             
-                            var latitude: String
-                            if let _latitude = location["latitude"] as? String {
+                            var latitude: NSNumber
+                            if let _latitude = location["latitude"] as? NSNumber {
                                 latitude  = _latitude
                             } else{
-                                latitude  = ""
+                                latitude  = 0
                             }
                             
-                            var longitude: String
-                            if let _longitude = location["longitude"] as? String {
+                            var longitude: NSNumber
+                            if let _longitude = location["longitude"] as? NSNumber {
                                 longitude  = _longitude
                             } else{
-                                longitude  = ""
+                                longitude  = 0
                             }
                             
                             var street: String
@@ -161,7 +161,8 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
                                 street  = ""
                             }
                     events.append(event.init(eventName: eventName, eventId: eventId, eventPicture: eventPicture, eventDescription: eventDescription, eventCategory: eventCategory, eventStartTime: eventStartTime, eventEndTime: eventEndTime, city: city, country: country, latitude: latitude, longitude: longitude, street: street))
-                            
+                      print(longitude)
+                            print(street)
                     }
                 }
             }
@@ -203,8 +204,13 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
                 formatEndTime = dateFormatter.string(from: end)
             }
             
-            let _eventTime = formatStartTime + "-" + formatEndTime
-            print(_eventTime)
+            var _eventTime = String()
+            if formatEndTime != ""{
+                _eventTime = formatStartTime + "-" + formatEndTime
+                 }
+            else {
+                _eventTime = formatStartTime
+            }
             
             var city = events[i].city
             if city != "" {

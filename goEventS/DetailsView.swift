@@ -6,11 +6,12 @@
 //  Copyright © 2017 VikaMaksymuk. All rights reserved.
 //
 
-import Foundation
-import UIKit
-import MapKit
 
-class DetailsView : UIViewController{
+import UIKit
+import GoogleMaps
+
+
+class DetailsView : UIViewController, GMSMapViewDelegate{
   
     @IBOutlet weak var detailImage: UIImageView!
     @IBOutlet weak var detailNameLabel: UILabel!
@@ -19,7 +20,8 @@ class DetailsView : UIViewController{
     @IBOutlet weak var detailStreetLabel: UILabel!
     @IBOutlet weak var detailLocationLabel: UILabel!
     @IBOutlet weak var detailAttendingLabel: UILabel!
-
+    @IBOutlet weak var datailMapView: GMSMapView!
+    
     var detailName = String()
     var detailPicture = String()
     var detailDescription = String()
@@ -27,8 +29,8 @@ class DetailsView : UIViewController{
     var detailTime = String()
     var city = String()
     var country = String()
-    var latitude = String()
-    var longitude = String()
+    var latitude = NSNumber()
+    var longitude = NSNumber()
     var street = String()
     var location = String()
     
@@ -48,11 +50,23 @@ class DetailsView : UIViewController{
         detailLocationLabel.text = location
         detailAttendingLabel.text = "no attention"
         
+        print(longitude)
+
         if detailPicture != " "{
             let imgURL = NSURL(string: detailPicture)
             let data = NSData(contentsOf: (imgURL as URL?)!)
             detailImage.image = UIImage(data: data! as Data)
+            
+            let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 15.0)
+            
+            self.datailMapView.camera = camera
+            self.datailMapView.delegate = self
+            
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+            marker.map = datailMapView
         }
+        
     }
 
 
