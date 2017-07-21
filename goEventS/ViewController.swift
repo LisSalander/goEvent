@@ -10,227 +10,59 @@ import UIKit
 import Alamofire
 
 
-
-class ViewController:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
+class ViewController:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate{
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var BarButton: UIBarButtonItem!
-  
-    struct event {
-        var eventName : String!
-        var eventId : String!
-        var eventPicture: String!
-        var eventDescription: String!
-        var eventCategory: String!
-        var eventStartTime: String!
-        var eventEndTime: String!
-        var city: String!
-        var country: String!
-        var latitude: NSNumber!
-        var longitude: NSNumber!
-        var street: String!
-    }
+    var categoryArray = ["All"]
     
-    struct eventFormat {
-        var eventTime: String!
-        var eventLocation: String!
-    }
-    
-    var events = [event]()
-    var eventsFormat = [eventFormat]()
-    
-    typealias JSONStandard = [String: AnyObject]
-    let URL_EVENT = "https://goeventapp.herokuapp.com/v1.0/events"
+    let URL_EVENT = "https://goeventapp.herokuapp.com/v1.0/events-location?lat=50.43&lng=30.52&distance=4000"
+    let loadData = LoadData()
+    var events:[GoEvent] = []
+    let customSegmente = CustomSegmenteControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
     
         BarButton.target = self.revealViewController()
         BarButton.action = #selector(SWRevealViewController.revealToggle(_:))
         
-        self.downloadEvent(url: URL_EVENT)
+        self.loadData.downloadEvent(url: URL_EVENT)
         self.collectionView.reloadData()
         
-    }
-    
-    func downloadEvent(url: String) {
-        Alamofire.request(url).responseJSON(completionHandler:{
-                response in
-                
-                self.parseData(JSONData: response.data!)
-            })
-    }
-    
-    
-    func parseData(JSONData: Data){
-        do{
-            var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as? JSONStandard
-            if let newEvents = readableJSON?["events"]{
-                for i in 0..<newEvents.count{
-                    let newEvents = newEvents[i] as! JSONStandard
-                    
-                    var eventName: String
-                    if let _eventName = newEvents["eventName"] as? String {
-                        eventName = _eventName
-                    } else{
-                        eventName = " "
-                    }
-
-                    var eventId: String
-                    if let _eventId = newEvents["eventId"] as? String {
-                        eventId = _eventId
-                    } else{
-                        eventId = " "
-                    }
-
-                    var eventStartTime: String
-                    if let _eventStartTime = newEvents["eventStartTime"] as? String {
-                        eventStartTime = _eventStartTime
-                    } else{
-                        eventStartTime = " "
-                    }
-                    
-                    var eventEndTime: String
-                    if let _eventEndTime = newEvents["eventEndTime"] as? String {
-                        eventEndTime = _eventEndTime
-                    } else{
-                        eventEndTime = " "
-                    }
-                    
-                    var eventPicture: String
-                    if let _eventPicture = newEvents["eventPicture"] as? String {
-                        eventPicture = _eventPicture
-                    } else{
-                        eventPicture = " "
-                    }
-                    
-                    var eventCategory: String
-                    if let _eventCategory = newEvents["eventCategory"] as? String {
-                        eventCategory = _eventCategory
-                    } else{
-                        eventCategory = "No category"
-                    }
-
-                    
-                    var eventDescription: String
-                    if let _eventDescription = newEvents["eventDescription"] as? String {
-                        eventDescription = _eventDescription
-                    } else{
-                        eventDescription = " "
-                    }
-                    
-                        if let eventLocation = newEvents["eventLocation"] as? JSONStandard {
-                            let location = eventLocation["location"] as! JSONStandard
-                            print(location)
-                            
-                            var city: String
-                            if let _city = location["eventCategory"] as? String {
-                                city = _city
-                            } else{
-                                city = ""
-                            }
-                            
-                            var country: String
-                            if let _country = location["country"] as? String {
-                                country  = _country
-                            } else{
-                                country  = ""
-                            }
-                            
-                            var latitude: NSNumber
-                            if let _latitude = location["latitude"] as? NSNumber {
-                                latitude  = _latitude
-                            } else{
-                                latitude  = 0
-                            }
-                            
-                            var longitude: NSNumber
-                            if let _longitude = location["longitude"] as? NSNumber {
-                                longitude  = _longitude
-                            } else{
-                                longitude  = 0
-                            }
-                            
-                            var street: String
-                            if let _street = location["street"] as? String {
-                                street  = _street
-                            } else{
-                                street  = ""
-                            }
-                    events.append(event.init(eventName: eventName, eventId: eventId, eventPicture: eventPicture, eventDescription: eventDescription, eventCategory: eventCategory, eventStartTime: eventStartTime, eventEndTime: eventEndTime, city: city, country: country, latitude: latitude, longitude: longitude, street: street))
-                      print(longitude)
-                            print(street)
-                    }
-                }
-            }
-          self.formatData()
-          //self.collectionView.reloadData()
-        }
-        catch{
-            print(error)
-        }
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        self.collectionView.reloadData()
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
+      //  CustomSegmenteControl.items = [""]
         
     }
+
+    func loadList(){
+        //load data here
+        self.fetchData()
+        self.collectionView.reloadData()
+        self.createCategoryArray()
+        customSegmente.items = categoryArray
+        customSegmente.setupAllLabels()
+    }
     
-    func formatData() {
+    @IBAction func update(sender: CustomSegmenteControl) {
+        self.collectionView.reloadData()
+        let index = sender.selectedIndex
         for i in 0..<events.count{
-            
-            let startTime = events[i].eventStartTime
-            let endTime = events[i].eventEndTime
-            var formatEndTime = String()
-            var formatStartTime = String()
-            
-            if startTime != " " {
-                let dateFormatter = DateFormatter()
-                let tempLocale = dateFormatter.locale
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                let start = dateFormatter.date(from: startTime!)!
-                dateFormatter.dateFormat = "E,MMM d,HH:mm"
-                dateFormatter.locale = tempLocale
-                formatStartTime = dateFormatter.string(from: start)
-            }
-            
-            if endTime != " " {
+            if categoryArray[index] == events[i].eventCategory{
                 
-                let dateFormatter = DateFormatter()
-                let tempLocale = dateFormatter.locale
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                let end = dateFormatter.date(from: endTime!)!
-                dateFormatter.dateFormat = "HH:mm"
-                dateFormatter.locale = tempLocale
-                formatEndTime = dateFormatter.string(from: end)
             }
-            
-            var _eventTime = String()
-            if formatEndTime != ""{
-                _eventTime = formatStartTime + "-" + formatEndTime
-                 }
-            else {
-                _eventTime = formatStartTime
-            }
-            
-            var city = events[i].city
-            if city != "" {
-                city = city! + ","
-            }
-            
-            var country = events[i].country
-            if (country != "" && events[i].street != "") {
-                country = country! + ","
-            }
-            
-            let _eventLocation = city! + country! + events[i].street
-            print(_eventLocation)
-            
-            eventsFormat.append(eventFormat.init(eventTime: _eventTime, eventLocation: _eventLocation))
-            self.collectionView.reloadData()
         }
     }
- 
     
+    @IBAction func searchWithAddress(_ sender: Any) {
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.delegate = self
+        self.present(searchController, animated: true, completion: nil)
+    }
 
        
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -245,16 +77,15 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? eventCell {
-            
-           cell.eventNameLabel?.text = events[indexPath.row].eventName
-            if events[indexPath.row].eventPicture != " "{
-            let imgURL = NSURL(string: events[indexPath.row].eventPicture)
-            let data = NSData(contentsOf: (imgURL as URL?)!)
-            cell.eventImage?.image = UIImage(data: data! as Data)
-            }
-            cell.eventCategortLabel.text = events[indexPath.row].eventCategory
-            cell.eventLocationLabel.text = eventsFormat[indexPath.row].eventTime
-            cell.eventDateLabel.text = eventsFormat[indexPath.row].eventLocation
+            let event = events[indexPath.row]
+        
+            cell.eventNameLabel?.text = event.eventName
+            cell.eventImage?.image = UIImage(data: event.eventPicture as! Data)
+            cell.eventCategortLabel.text = event.eventCategory
+            cell.eventDateLabel.text = event.eventTime
+            cell.eventLocationLabel.text = event.eventLocation
+
+           
             
             return cell
         } else {
@@ -268,18 +99,44 @@ class ViewController:  UIViewController, UICollectionViewDataSource, UICollectio
             let indexPath = self.collectionView.indexPath(for: cell) {
             
             let detail = segue.destination as! DetailsView
-            detail.detailName = events[indexPath.row].eventName
-            detail.detailCategory = events[indexPath.row].eventCategory
-            detail.detailDescription = events[indexPath.row].eventDescription
-            detail.city = events[indexPath.row].city
-            detail.country = events[indexPath.row].country
-            detail.street = events[indexPath.row].street
-            detail.latitude = events[indexPath.row].latitude
-            detail.longitude = events[indexPath.row].longitude
-            detail.detailPicture = events[indexPath.row].eventPicture
-            detail.detailTime = eventsFormat[indexPath.row].eventTime
+            let event = events[indexPath.row]
+            detail.detailName = event.eventName!
+            detail.detailCategory = event.eventCategory!
+            detail.detailDescription = event.eventDescription!
+            detail.city = event.city!
+            detail.country = event.country!
+            detail.street = event.street!
+            detail.latitude = event.latitude
+            detail.longitude = event.longitude
+            detail.detailPicture = event.eventPicture!
         }
     }
+    
+    
+    func fetchData(){
+        do{
+            events = try AppDelegate.getContext().fetch(GoEvent.fetchRequest())
+        }
+        catch{
+            print(error)
+        }
+    }
+    
+    func createCategoryArray(){
+        for i in 0..<events.count{
+            var buf = 0
+            for j in 0..<categoryArray.count{
+                if events[i].eventCategory == categoryArray[j]{
+                    buf += 1
+                }
+            }
+            if buf == 0{
+                categoryArray.append(events[i].eventCategory!)
+            }
+        }
+        print(categoryArray)
+    }
+    
 }
 
 

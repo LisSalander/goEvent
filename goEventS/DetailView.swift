@@ -20,52 +20,47 @@ class DetailsView : UIViewController, GMSMapViewDelegate{
     @IBOutlet weak var detailStreetLabel: UILabel!
     @IBOutlet weak var detailLocationLabel: UILabel!
     @IBOutlet weak var detailAttendingLabel: UILabel!
-    @IBOutlet weak var datailMapView: GMSMapView!
+    @IBOutlet weak var detailMapView: GMSMapView!
     
     var detailName = String()
-    var detailPicture = String()
+    var detailPicture = NSData()
     var detailDescription = String()
     var detailCategory = String()
     var detailTime = String()
     var city = String()
     var country = String()
-    var latitude = NSNumber()
-    var longitude = NSNumber()
+    var latitude = Double()
+    var longitude = Double()
     var street = String()
     var location = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         if (city != "" && country != ""){
             location = city + "," + country
         } else {
             location = city + country
         }
-        
+
         detailNameLabel.text = detailName
         detailDescriptionLabel.text = detailDescription
         detailTimeLabel.text = detailTime
         detailStreetLabel.text = street
         detailLocationLabel.text = location
         detailAttendingLabel.text = "no attention"
-        
-        print(longitude)
 
-        if detailPicture != " "{
-            let imgURL = NSURL(string: detailPicture)
-            let data = NSData(contentsOf: (imgURL as URL?)!)
-            detailImage.image = UIImage(data: data! as Data)
+        detailImage.image = UIImage(data: detailPicture as! Data)
+        let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 15.0)
+        
+        detailMapView.camera = camera
+        detailMapView.delegate = self
+          
             
-            let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 15.0)
-            
-            self.datailMapView.camera = camera
-            self.datailMapView.delegate = self
-            
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-            marker.map = datailMapView
-        }
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+        marker.map = detailMapView
+       
         
     }
 
