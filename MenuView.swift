@@ -17,7 +17,7 @@ class MenuView: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         menuTable.delegate = self
         menuTable.dataSource = self
-        tableArray = ["List of events","Saved","Nearby","Notifications","Login"]
+        tableArray = ["Main","List of events","Saved","Nearby","Notifications","Login"]
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

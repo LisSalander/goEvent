@@ -14,10 +14,14 @@ class eventCell: UICollectionViewCell {
     @IBOutlet weak var eventCategortLabel: UILabel!
     @IBOutlet weak var eventLocationLabel: UILabel!
     
+    @IBOutlet weak var categoryButton: UIButton!
     
     @IBOutlet weak var mapEventImage: UIImageView!
     @IBOutlet weak var mapEventName: UILabel!
     @IBOutlet weak var mapEventDate: UILabel!
+
+    @IBOutlet weak var mainCategoryLabel: UILabel!
+    @IBOutlet weak var mainImage: UIImageView!
 
     //ROUNDING THE CELL'S BORDER
     required init?(coder aDecoder: NSCoder) {

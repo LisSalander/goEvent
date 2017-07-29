@@ -186,10 +186,11 @@ class LoadData: NSObject{
                         
                         AppDelegate.saveContext()
                 
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+                       
                     }
                 }
             }
+             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "control"), object: nil)
         }
         catch{
             print(error)

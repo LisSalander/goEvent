@@ -10,7 +10,6 @@
 		3C17C31F1F1E366E0066E94E /* GoEvent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C17C31D1F1E366E0066E94E /* GoEvent.xcdatamodeld */; };
 		3C17C3261F1E38330066E94E /* GoEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C17C3241F1E38330066E94E /* GoEvent.swift */; };
 		3C17C3271F1E38330066E94E /* GoEventCoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C17C3251F1E38330066E94E /* GoEventCoreDataProperties.swift */; };
-		3C17C32A1F1E68030066E94E /* CustomSegmenteControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C17C3291F1E68030066E94E /* CustomSegmenteControl.swift */; };
 		3C1A6BA11E8909EF00A854C9 /* eventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A6BA01E8909EF00A854C9 /* eventCell.swift */; };
 		3C1CA4C11EF692AE00CFA5DB /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1CA4C01EF692AE00CFA5DB /* GoogleMaps.framework */; };
 		3C1CA4C31EF692CB00CFA5DB /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1CA4C21EF692CB00CFA5DB /* GoogleMapsCore.framework */; };
@@ -32,7 +31,7 @@
 		3C4EAC441E92F1C80025EF6E /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EAC431E92F1C80025EF6E /* DetailView.swift */; };
 		3C6793231F1CB8C700F1FAAB /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6793221F1CB8C700F1FAAB /* LoadData.swift */; };
 		3C76110E1E7F2A8800163AD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C76110D1E7F2A8800163AD3 /* AppDelegate.swift */; };
-		3C7611101E7F2A8800163AD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C76110F1E7F2A8800163AD3 /* ViewController.swift */; };
+		3C7611101E7F2A8800163AD3 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C76110F1E7F2A8800163AD3 /* EventList.swift */; };
 		3C7611131E7F2A8800163AD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C7611111E7F2A8800163AD3 /* Main.storyboard */; };
 		3C7611151E7F2A8800163AD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C7611141E7F2A8800163AD3 /* Assets.xcassets */; };
 		3C7611181E7F2A8800163AD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C7611161E7F2A8800163AD3 /* LaunchScreen.storyboard */; };
@@ -43,6 +42,7 @@
 		3C948FED1EF300490046B5F4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C948FEC1EF300490046B5F4 /* MapView.swift */; };
 		3C948FEF1EF300E90046B5F4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C948FEE1EF300E90046B5F4 /* LoginView.swift */; };
 		3C948FF11EF301130046B5F4 /* SavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C948FF01EF301130046B5F4 /* SavedView.swift */; };
+		3CE1BAE41F29210600040D99 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE1BAE31F29210600040D99 /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,7 +115,6 @@
 		3C17C31E1F1E366E0066E94E /* GoEvent.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GoEvent.xcdatamodel; sourceTree = "<group>"; };
 		3C17C3241F1E38330066E94E /* GoEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoEvent.swift; sourceTree = "<group>"; };
 		3C17C3251F1E38330066E94E /* GoEventCoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoEventCoreDataProperties.swift; sourceTree = "<group>"; };
-		3C17C3291F1E68030066E94E /* CustomSegmenteControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmenteControl.swift; sourceTree = "<group>"; };
 		3C1A6BA01E8909EF00A854C9 /* eventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventCell.swift; sourceTree = "<group>"; };
 		3C1CA4C01EF692AE00CFA5DB /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		3C1CA4C21EF692CB00CFA5DB /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
@@ -139,7 +138,7 @@
 		3C6793221F1CB8C700F1FAAB /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadData.swift; sourceTree = "<group>"; };
 		3C76110A1E7F2A8800163AD3 /* goEventS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = goEventS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C76110D1E7F2A8800163AD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3C76110F1E7F2A8800163AD3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3C76110F1E7F2A8800163AD3 /* EventList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
 		3C7611121E7F2A8800163AD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3C7611141E7F2A8800163AD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C7611171E7F2A8800163AD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -157,6 +156,7 @@
 		3C948FEC1EF300490046B5F4 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		3C948FEE1EF300E90046B5F4 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3C948FF01EF301130046B5F4 /* SavedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedView.swift; sourceTree = "<group>"; };
+		3CE1BAE31F29210600040D99 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,13 +252,13 @@
 				3C7611451E7F2EBF00163AD3 /* SWRevealViewController */,
 				3C17C3281F1E55F50066E94E /* Data */,
 				3C948FEC1EF300490046B5F4 /* MapView.swift */,
-				3C76110F1E7F2A8800163AD3 /* ViewController.swift */,
+				3CE1BAE31F29210600040D99 /* ViewController.swift */,
+				3C76110F1E7F2A8800163AD3 /* EventList.swift */,
 				3C948FF01EF301130046B5F4 /* SavedView.swift */,
 				3C948FEE1EF300E90046B5F4 /* LoginView.swift */,
 				3C948FEA1EF2F5720046B5F4 /* MenuView.swift */,
 				3C1A6BA01E8909EF00A854C9 /* eventCell.swift */,
 				3C4EAC431E92F1C80025EF6E /* DetailView.swift */,
-				3C17C3291F1E68030066E94E /* CustomSegmenteControl.swift */,
 				3C7611111E7F2A8800163AD3 /* Main.storyboard */,
 				3C7611141E7F2A8800163AD3 /* Assets.xcassets */,
 				3C7611161E7F2A8800163AD3 /* LaunchScreen.storyboard */,
@@ -524,9 +524,9 @@
 				3C1A6BA11E8909EF00A854C9 /* eventCell.swift in Sources */,
 				3C17C3261F1E38330066E94E /* GoEvent.swift in Sources */,
 				3C948FEB1EF2F5720046B5F4 /* MenuView.swift in Sources */,
-				3C7611101E7F2A8800163AD3 /* ViewController.swift in Sources */,
+				3CE1BAE41F29210600040D99 /* ViewController.swift in Sources */,
+				3C7611101E7F2A8800163AD3 /* EventList.swift in Sources */,
 				3C76110E1E7F2A8800163AD3 /* AppDelegate.swift in Sources */,
-				3C17C32A1F1E68030066E94E /* CustomSegmenteControl.swift in Sources */,
 				3C948FF11EF301130046B5F4 /* SavedView.swift in Sources */,
 				3C4EAC441E92F1C80025EF6E /* DetailView.swift in Sources */,
 				3C17C3271F1E38330066E94E /* GoEventCoreDataProperties.swift in Sources */,
