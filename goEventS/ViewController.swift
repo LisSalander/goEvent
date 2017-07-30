@@ -15,9 +15,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
     @IBOutlet weak var mainImageCollectionView: UICollectionView!
     @IBOutlet weak var mainCollectionView: UICollectionView!
     @IBOutlet weak var BarButton: UIBarButtonItem!
-    @IBOutlet weak var ImageActivityIndecator: UIActivityIndicatorView!
-    @IBOutlet weak var CategoryActivityIndecator: UIActivityIndicatorView!
+    @IBOutlet weak var activityIndecator: UIActivityIndicatorView!
     @IBOutlet weak var locationButtonOutlet: UIButton!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var mapLocationButton: UIButton!
     
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation!
@@ -61,16 +62,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        self.ImageActivityIndecator.startAnimating()
-        self.CategoryActivityIndecator.startAnimating()
+        self.activityIndecator.startAnimating()
 
         locationAuthStatus()
     }
-    
-    func imageScrol(){
-        
-    }
-    
+
     func deleteAllRecords() {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = AppDelegate.persistentContainer.viewContext
@@ -101,7 +97,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
                     self.city = (placemark.addressDictionary?["City"] as! String)
                     self.country = (placemark.addressDictionary?["Country"] as! String)
                     print(self.city)
-                    self.locationButtonOutlet.setTitle(self.city + "," + self.country, for: .normal)
+                  
                 }
             
             } else {
@@ -119,11 +115,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
         self.fetchData()
         print(events)
        // self.mainCollectionView.reloadData()
-        if events.count != nil{
-            self.ImageActivityIndecator.stopAnimating()
-            ImageActivityIndecator.isHidden = true
-            mainImageCollectionView.reloadData()
-        }
+        self.activityIndecator.stopAnimating()
+        activityIndecator.isHidden = true
+        
+        self.locationButtonOutlet.setTitle(self.city + "," + self.country, for: .normal)
+        self.mapLocationButton.setTitle("Біля мене", for: .normal)
+        mainImageCollectionView.reloadData()
         self.createCategoryArray()
     }
     
@@ -149,10 +146,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
             }
         }
         print(categoryArray)
-        if categoryArray != nil{
-        self.CategoryActivityIndecator.stopAnimating()
-        CategoryActivityIndecator.isHidden = true
-        }
+        self.categoryLabel.text = "Категорії"
         mainCollectionView.reloadData()
     }
     
@@ -175,7 +169,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as? eventCell {
             if collectionView == mainCollectionView {
                 cell.mainCategoryLabel.text = categoryArray[indexPath.row]
-                cell.mainCategoryLabel.layer.cornerRadius = 30
+                cell.mainCategoryLabel.layer.masksToBounds = true
+                cell.mainCategoryLabel.layer.cornerRadius = 15
             } else {
                 cell.mainImage?.image = UIImage(data: events[indexPath.row].eventPicture as! Data)
             }

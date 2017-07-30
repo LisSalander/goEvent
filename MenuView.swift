@@ -11,13 +11,13 @@ import UIKit
 class MenuView: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var menuTable: UITableView!
-    var tableArray = [String]()
+    var tableArray = ["Головна","Список подій","Карта","Збережені","Вхід",""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         menuTable.delegate = self
         menuTable.dataSource = self
-        tableArray = ["Main","List of events","Saved","Nearby","Notifications","Login"]
+       // tableArray = ["Головна","Список подій","Карта","Збережені","Вхід",""]
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
