@@ -108,43 +108,52 @@ class LoadData: NSObject{
                     }
                     
                     if let eventLocation = newEvents["eventLocation"] as? JSONStandard {
-                        let location = eventLocation["location"] as! JSONStandard
-                        //print(location)
                         
-                        var city: String
-                        if let _city = location["eventCategory"] as? String {
-                            city = _city
+                        var eventLocationName: String
+                        if let _eventLocationName = eventLocation["name"] as? String {
+                            eventLocationName = _eventLocationName
                         } else{
-                            city = ""
+                            eventLocationName = " "
                         }
                         
-                        var country: String
-                        if let _country = location["country"] as? String {
-                            country  = _country
-                        } else{
-                            country  = ""
-                        }
                         
-                        var latitude: Double
-                        if let _latitude = location["latitude"] as? Double {
-                            latitude  = _latitude
-                        } else{
-                            latitude  = 0
-                        }
+                        if eventLocation["location"] != nil {
+                            let location = eventLocation["location"] as! JSONStandard
                         
-                        var longitude: Double
-                        if let _longitude = location["longitude"] as? Double {
-                            longitude  = _longitude
-                        } else{
-                            longitude  = 0
-                        }
+                            var city: String
+                            if let _city = location["eventCategory"] as? String {
+                                city = _city
+                            } else{
+                                city = ""
+                            }
                         
-                        var street: String
-                        if let _street = location["street"] as? String {
-                            street  = _street
-                        } else{
-                            street  = ""
-                        }
+                            var country: String
+                            if let _country = location["country"] as? String {
+                                country  = _country
+                            } else{
+                                country  = ""
+                            }
+                        
+                            var latitude: Double
+                            if let _latitude = location["latitude"] as? Double {
+                                latitude  = _latitude
+                            } else{
+                                latitude  = 0
+                            }
+                        
+                            var longitude: Double
+                            if let _longitude = location["longitude"] as? Double {
+                                longitude  = _longitude
+                            } else{
+                                longitude  = 0
+                            }
+                        
+                            var street: String
+                            if let _street = location["street"] as? String {
+                                street  = _street
+                            } else{
+                                street  = ""
+                            }
                         
                         var eventTime: String
                         if formatEndTime != ""{
@@ -186,7 +195,7 @@ class LoadData: NSObject{
                         
                         AppDelegate.saveContext()
                 
-                       
+                        }
                     }
                 }
             }

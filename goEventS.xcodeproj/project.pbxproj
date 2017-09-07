@@ -38,7 +38,7 @@
 		3C7611231E7F2A8900163AD3 /* goEventSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7611221E7F2A8900163AD3 /* goEventSTests.swift */; };
 		3C76112E1E7F2A8900163AD3 /* goEventSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C76112D1E7F2A8900163AD3 /* goEventSUITests.swift */; };
 		3C7611441E7F2EA000163AD3 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C7611431E7F2EA000163AD3 /* SWRevealViewController.m */; };
-		3C948FEB1EF2F5720046B5F4 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C948FEA1EF2F5720046B5F4 /* MenuView.swift */; };
+		3C82BEF41F2E65FE00D8DE06 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C82BEF31F2E65FE00D8DE06 /* MenuView.swift */; };
 		3C948FED1EF300490046B5F4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C948FEC1EF300490046B5F4 /* MapView.swift */; };
 		3C948FEF1EF300E90046B5F4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C948FEE1EF300E90046B5F4 /* LoginView.swift */; };
 		3C948FF11EF301130046B5F4 /* SavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C948FF01EF301130046B5F4 /* SavedView.swift */; };
@@ -152,7 +152,7 @@
 		3C76113E1E7F2D5100163AD3 /* goEventS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "goEventS-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		3C7611421E7F2EA000163AD3 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		3C7611431E7F2EA000163AD3 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
-		3C948FEA1EF2F5720046B5F4 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuView.swift; path = ../MenuView.swift; sourceTree = "<group>"; };
+		3C82BEF31F2E65FE00D8DE06 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		3C948FEC1EF300490046B5F4 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		3C948FEE1EF300E90046B5F4 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3C948FF01EF301130046B5F4 /* SavedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedView.swift; sourceTree = "<group>"; };
@@ -252,13 +252,14 @@
 				3C7611451E7F2EBF00163AD3 /* SWRevealViewController */,
 				3C17C3281F1E55F50066E94E /* Data */,
 				3C948FEC1EF300490046B5F4 /* MapView.swift */,
+				3C76110D1E7F2A8800163AD3 /* AppDelegate.swift */,
 				3CE1BAE31F29210600040D99 /* ViewController.swift */,
 				3C76110F1E7F2A8800163AD3 /* EventList.swift */,
 				3C948FF01EF301130046B5F4 /* SavedView.swift */,
 				3C948FEE1EF300E90046B5F4 /* LoginView.swift */,
-				3C948FEA1EF2F5720046B5F4 /* MenuView.swift */,
 				3C1A6BA01E8909EF00A854C9 /* eventCell.swift */,
 				3C4EAC431E92F1C80025EF6E /* DetailView.swift */,
+				3C82BEF31F2E65FE00D8DE06 /* MenuView.swift */,
 				3C7611111E7F2A8800163AD3 /* Main.storyboard */,
 				3C7611141E7F2A8800163AD3 /* Assets.xcassets */,
 				3C7611161E7F2A8800163AD3 /* LaunchScreen.storyboard */,
@@ -293,7 +294,6 @@
 		3C7611451E7F2EBF00163AD3 /* SWRevealViewController */ = {
 			isa = PBXGroup;
 			children = (
-				3C76110D1E7F2A8800163AD3 /* AppDelegate.swift */,
 				3C7611421E7F2EA000163AD3 /* SWRevealViewController.h */,
 				3C7611431E7F2EA000163AD3 /* SWRevealViewController.m */,
 			);
@@ -523,11 +523,11 @@
 				3C948FED1EF300490046B5F4 /* MapView.swift in Sources */,
 				3C1A6BA11E8909EF00A854C9 /* eventCell.swift in Sources */,
 				3C17C3261F1E38330066E94E /* GoEvent.swift in Sources */,
-				3C948FEB1EF2F5720046B5F4 /* MenuView.swift in Sources */,
 				3CE1BAE41F29210600040D99 /* ViewController.swift in Sources */,
 				3C7611101E7F2A8800163AD3 /* EventList.swift in Sources */,
 				3C76110E1E7F2A8800163AD3 /* AppDelegate.swift in Sources */,
 				3C948FF11EF301130046B5F4 /* SavedView.swift in Sources */,
+				3C82BEF41F2E65FE00D8DE06 /* MenuView.swift in Sources */,
 				3C4EAC441E92F1C80025EF6E /* DetailView.swift in Sources */,
 				3C17C3271F1E38330066E94E /* GoEventCoreDataProperties.swift in Sources */,
 				3C6793231F1CB8C700F1FAAB /* LoadData.swift in Sources */,

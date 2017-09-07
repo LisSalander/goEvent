@@ -51,9 +51,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
         locationManager.stopMonitoringSignificantLocationChanges()
         //locationManager.startUpdatingLocation()
         
-        
-        BarButton.target = self.revealViewController()
-        BarButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        //if revealViewController() != nil {
+            BarButton.target = revealViewController()
+            BarButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        //}
         
         NotificationCenter.default.addObserver(self, selector: #selector(controlActivityIndecator), name: NSNotification.Name(rawValue: "control"), object: nil)
         
@@ -101,7 +103,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
                 }
             
             } else {
-                locationManager.requestWhenInUseAuthorization()
+                //locationManager.requestWhenInUseAuthorization()
                 locationAuthStatus()
             }
             
@@ -171,6 +173,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
                 cell.mainCategoryLabel.text = categoryArray[indexPath.row]
                 cell.mainCategoryLabel.layer.masksToBounds = true
                 cell.mainCategoryLabel.layer.cornerRadius = 15
+                cell.mainCategoryLabel.layer.borderWidth = 1
+                cell.mainCategoryLabel.layer.borderColor = UIColor.black.cgColor
+                
+                
             } else {
                 cell.mainImage?.image = UIImage(data: events[indexPath.row].eventPicture as! Data)
             }

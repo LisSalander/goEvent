@@ -13,8 +13,9 @@ import GoogleMaps
 class MapView: UIViewController, GMSMapViewDelegate, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource{
  
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var searchMap: UISearchBar!
     @IBOutlet weak var mapView: GMSMapView!
+
+    @IBOutlet weak var BarButton: UIBarButtonItem!
 
     var events:[GoEvent] = []
   
@@ -23,7 +24,13 @@ class MapView: UIViewController, GMSMapViewDelegate, UISearchBarDelegate, UIColl
 
         self.fetchData()
         
-        searchMap.delegate = self
+        if revealViewController() != nil {
+            BarButton.target = revealViewController()
+            BarButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        
+       // searchMap.delegate = self
         let camera = GMSCameraPosition.camera(withLatitude: 50.43, longitude: 30.52, zoom: 13.0)
         
         mapView.camera = camera

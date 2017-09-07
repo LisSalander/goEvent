@@ -22,20 +22,25 @@ struct eventList {
 
 class EventList:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate{
 
+    @IBOutlet weak var BarButton: UIBarButtonItem!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var eventListCollectionView: UICollectionView!
-    @IBOutlet weak var BarButton: UIBarButtonItem!
-
+    
+  
     var categoryArray = [String]()
-    var category = String()
+    var category = "All"
     var eventsList = [eventList]()
     var events:[GoEvent] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        BarButton.target = self.revealViewController()
-        BarButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        if revealViewController() != nil {
+            BarButton.target = revealViewController()
+            BarButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        
         
         self.fetchData()
         self.eventListCategory()
@@ -52,6 +57,9 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
         for i in 0..<events.count {
             if category == events[i].eventCategory{
                eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation))
+            }
+            if category == "All"{
+                 eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation))
             }
         }
         self.eventListCollectionView.reloadData()
