@@ -18,6 +18,9 @@ struct eventList {
     var longitude: Double!
     var eventTime: String!
     var eventLocation: String!
+    var city: String!
+    var country: String!
+    var street: String!
 }
 
 class EventList:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate{
@@ -56,10 +59,10 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
     func eventListCategory() {
         for i in 0..<events.count {
             if category == events[i].eventCategory{
-               eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation))
+                eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation, city: events[i].city, country: events[i].country, street: events[i].street))
             }
             if category == "All"{
-                 eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation))
+                 eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation, city: events[i].city, country: events[i].country, street: events[i].street))
             }
         }
         self.eventListCollectionView.reloadData()
@@ -73,6 +76,12 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
         }*/
     
     @IBAction func categoryList(_ sender: Any) {
+        
+       let indexPath = categoryCollectionView?.indexPath(for: (((sender as AnyObject).superview??.superview) as! UICollectionViewCell))
+        print(categoryArray[(indexPath?.row)!])
+        category = categoryArray[(indexPath?.row)!]
+        eventsList.removeAll()
+        self.eventListCategory()
     }
    
     @IBAction func searchWithAddress(_ sender: Any) {
@@ -109,10 +118,10 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
             if collectionView == categoryCollectionView {
                 print(categoryArray[indexPath.row])
                 cell.categoryButton.setTitle(categoryArray[indexPath.row], for: .normal)
-                cell.categoryButton.setTitle(categoryArray[indexPath.row], for: .normal)
-                if categoryArray[indexPath.row] == category {
+                
+                /*if categoryArray[indexPath.row] == category {
                     cell.categoryButton.backgroundColor = .black
-                }
+                }*/
             }
             return cell
         } else {
@@ -126,7 +135,7 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
             let indexPath = self.eventListCollectionView.indexPath(for: cell) {
             
             let detail = segue.destination as! DetailsView
-           /* let event = events[indexPath.row]
+            let event = eventsList[indexPath.row]
             detail.detailName = event.eventName!
             detail.detailCategory = event.eventCategory!
             detail.detailDescription = event.eventDescription!
@@ -135,7 +144,7 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
             detail.street = event.street!
             detail.latitude = event.latitude
             detail.longitude = event.longitude
-            detail.detailPicture = event.eventPicture!*/
+            //detail.detailPicture = event.eventPicture!
         }
     }
     
