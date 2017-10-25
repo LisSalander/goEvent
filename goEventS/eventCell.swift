@@ -16,6 +16,8 @@ class eventCell: UICollectionViewCell {
     
     @IBOutlet weak var categoryButton: UIButton!
     
+    @IBOutlet weak var dateButton: UIButton!
+    
     @IBOutlet weak var mapEventImage: UIImageView!
     @IBOutlet weak var mapEventName: UILabel!
     @IBOutlet weak var mapEventDate: UILabel!

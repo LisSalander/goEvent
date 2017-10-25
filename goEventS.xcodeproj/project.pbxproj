@@ -28,6 +28,8 @@
 		3C1CA4DD1EF6946D00CFA5DB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1CA4DC1EF6946D00CFA5DB /* QuartzCore.framework */; };
 		3C1CA4DF1EF6947500CFA5DB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1CA4DE1EF6947500CFA5DB /* SystemConfiguration.framework */; };
 		3C1CA4E11EF6947E00CFA5DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1CA4E01EF6947E00CFA5DB /* UIKit.framework */; };
+		3C39902B1F8EA99300290EF0 /* CustomDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C39902A1F8EA99300290EF0 /* CustomDateView.swift */; };
+		3C3E70E41F8E919300C7383F /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3E70E31F8E919300C7383F /* DesignableView.swift */; };
 		3C4EAC441E92F1C80025EF6E /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EAC431E92F1C80025EF6E /* DetailView.swift */; };
 		3C6793231F1CB8C700F1FAAB /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6793221F1CB8C700F1FAAB /* LoadData.swift */; };
 		3C76110E1E7F2A8800163AD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C76110D1E7F2A8800163AD3 /* AppDelegate.swift */; };
@@ -134,6 +136,8 @@
 		3C1CA4DE1EF6947500CFA5DB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3C1CA4E01EF6947E00CFA5DB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3C2A85451EF5B4B200412633 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
+		3C39902A1F8EA99300290EF0 /* CustomDateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomDateView.swift; sourceTree = "<group>"; };
+		3C3E70E31F8E919300C7383F /* DesignableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		3C4EAC431E92F1C80025EF6E /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		3C6793221F1CB8C700F1FAAB /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadData.swift; sourceTree = "<group>"; };
 		3C76110A1E7F2A8800163AD3 /* goEventS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = goEventS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,6 +273,8 @@
 				3C1CA4C41EF692D100CFA5DB /* GoogleMapsBase.framework */,
 				3C1CA4C21EF692CB00CFA5DB /* GoogleMapsCore.framework */,
 				3C1CA4C01EF692AE00CFA5DB /* GoogleMaps.framework */,
+				3C3E70E31F8E919300C7383F /* DesignableView.swift */,
+				3C39902A1F8EA99300290EF0 /* CustomDateView.swift */,
 			);
 			path = goEventS;
 			sourceTree = "<group>";
@@ -523,11 +529,13 @@
 				3C948FED1EF300490046B5F4 /* MapView.swift in Sources */,
 				3C1A6BA11E8909EF00A854C9 /* eventCell.swift in Sources */,
 				3C17C3261F1E38330066E94E /* GoEvent.swift in Sources */,
+				3C39902B1F8EA99300290EF0 /* CustomDateView.swift in Sources */,
 				3CE1BAE41F29210600040D99 /* ViewController.swift in Sources */,
 				3C7611101E7F2A8800163AD3 /* EventList.swift in Sources */,
 				3C76110E1E7F2A8800163AD3 /* AppDelegate.swift in Sources */,
 				3C948FF11EF301130046B5F4 /* SavedView.swift in Sources */,
 				3C82BEF41F2E65FE00D8DE06 /* MenuView.swift in Sources */,
+				3C3E70E41F8E919300C7383F /* DesignableView.swift in Sources */,
 				3C4EAC441E92F1C80025EF6E /* DetailView.swift in Sources */,
 				3C17C3271F1E38330066E94E /* GoEventCoreDataProperties.swift in Sources */,
 				3C6793231F1CB8C700F1FAAB /* LoadData.swift in Sources */,

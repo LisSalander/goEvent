@@ -8,8 +8,9 @@
 
 import UIKit
 import Alamofire
+import MessageUI
 
-struct eventList {
+struct EventLists {
     var eventName: String!
     var eventPicture: NSData!
     var eventDescription: String!
@@ -21,18 +22,23 @@ struct eventList {
     var city: String!
     var country: String!
     var street: String!
+    var eventStartTime: String!
 }
 
-class EventList:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate{
+class EventList:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate{
 
     @IBOutlet weak var BarButton: UIBarButtonItem!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var eventListCollectionView: UICollectionView!
+    @IBOutlet weak var dateCollectionView: UICollectionView!
+    @IBOutlet weak var messageButtonOutlet: UIButton!
     
   
     var categoryArray = [String]()
     var category = "All"
-    var eventsList = [eventList]()
+    var (startDate, endDate) = Calendar.current.todayRange()
+    var date = ["Today","Tomorrow","Weekend","Custom date"]
+    var eventsList = [EventLists]()
     var events:[GoEvent] = []
 
     override func viewDidLoad() {
@@ -46,7 +52,7 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
         
         
         self.fetchData()
-        self.eventListCategory()
+        self.entries(from: startDate, to: endDate)
         self.createCategoryArray()
         
         eventListCollectionView.delegate = self
@@ -54,53 +60,78 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
         
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
+        
+        messageButtonOutlet.layer.cornerRadius = 24
+        
     }
 
-    func eventListCategory() {
-        for i in 0..<events.count {
-            if category == events[i].eventCategory{
-                eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation, city: events[i].city, country: events[i].country, street: events[i].street))
-            }
-            if category == "All"{
-                 eventsList.append(eventList.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation, city: events[i].city, country: events[i].country, street: events[i].street))
-            }
-        }
-        self.eventListCollectionView.reloadData()
-    }
-    /*func loadList(){
-        //load data here
-        self.fetchData()
-        collectionView.reloadData()
-        self.createCategoryArray()
-        
-        }*/
-    
     @IBAction func categoryList(_ sender: Any) {
         
        let indexPath = categoryCollectionView?.indexPath(for: (((sender as AnyObject).superview??.superview) as! UICollectionViewCell))
         print(categoryArray[(indexPath?.row)!])
         category = categoryArray[(indexPath?.row)!]
         eventsList.removeAll()
-        self.eventListCategory()
+        self.entries(from: startDate, to: endDate)
     }
    
-    @IBAction func searchWithAddress(_ sender: Any) {
+    @IBAction func dateButton(_ sender: Any) {
         
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.delegate = self
-        self.present(searchController, animated: true, completion: nil)
-    }
+        let indexPath = dateCollectionView?.indexPath(for: (((sender as AnyObject).superview??.superview) as! UICollectionViewCell))
+        var index = Int()
+        index = (indexPath?.row)!
+        switch index {
+        case 0:
+            (startDate, endDate) = Calendar.current.todayRange()
+            eventsList.removeAll()
+            self.entries(from: startDate, to: endDate)
 
+        case 1:
+            (startDate, endDate) = Calendar.current.tomorrowRange()
+            eventsList.removeAll()
+            self.entries(from: startDate, to: endDate)
+
+        case 2:
+            (startDate, endDate) = Calendar.current.thisWeekRange()
+            eventsList.removeAll()
+            self.entries(from: startDate, to: endDate)
+
+        case 3:
+            if let dateView = self.storyboard?.instantiateViewController(withIdentifier: "customDateView") as? CustomDateView {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.window?.rootViewController!.present(dateView, animated: true, completion: nil)
+            }
+        default:
+            let (startDate, endDate) = Calendar.current.todayRange()
+            eventsList.removeAll()
+            self.entries(from: startDate, to: endDate)
+        }
+    }
+    
+    @IBAction func sendEmail(_ sender: Any) {
+        let mailComposeViewController = configureMailController()
+        if MFMailComposeViewController.canSendMail() {
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        } else {
+            showMailError()
+        }
+        
+    }
+    
        
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == categoryCollectionView {
+        switch (collectionView) {
+        case categoryCollectionView:
             return categoryArray.count
-        } else {
+        case eventListCollectionView:
             return eventsList.count
+        case dateCollectionView:
+            return date.count
+        default:
+            return 0
         }
     }
     
@@ -123,6 +154,9 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
                     cell.categoryButton.backgroundColor = .black
                 }*/
             }
+            if collectionView == dateCollectionView {
+                cell.dateButton.setTitle(date[indexPath.row], for: .normal)
+            }
             return cell
         } else {
             return UICollectionViewCell()
@@ -144,7 +178,7 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
             detail.street = event.street!
             detail.latitude = event.latitude
             detail.longitude = event.longitude
-            //detail.detailPicture = event.eventPicture!
+            detail.detailPicture = event.eventPicture!
         }
     }
     
@@ -175,6 +209,80 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
         self.categoryCollectionView.reloadData()
     }
     
+    func entries(from: Date, to: Date){
+        
+        for i in 0..<events.count {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            let time = events[i].eventStartTime
+            let date = dateFormatter.date(from: time!)
+            let timeCreated = date
+            
+            if category == events[i].eventCategory! && (from < timeCreated!||from == timeCreated!) && timeCreated! < to{
+                eventsList.append(EventLists.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation, city: events[i].city, country: events[i].country, street: events[i].street, eventStartTime: events[i].eventStartTime))
+            }
+            if category == "All" && (from < timeCreated!||from == timeCreated!) && timeCreated! < to{
+                eventsList.append(EventLists.init(eventName: events[i].eventName, eventPicture: events[i].eventPicture, eventDescription: events[i].eventDescription, eventCategory: events[i].eventCategory, latitude: events[i].latitude, longitude: events[i].longitude, eventTime: events[i].eventTime, eventLocation: events[i].eventLocation, city: events[i].city, country: events[i].country, street: events[i].street, eventStartTime: events[i].eventStartTime))
+            }
+        }
+        self.eventListCollectionView.reloadData()
+    }
+    
+    func configureMailController() -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        
+        mailComposerVC.setToRecipients(["vikamaksymuk@gmail.com"])
+        
+        return mailComposerVC
+    }
+    
+    func showMailError() {
+        let sendMailErrorAlert = UIAlertController(title: "Could no send email", message: "Your device could not send email", preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        sendMailErrorAlert.addAction(dismiss)
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+
+
+extension Calendar {
+    func todayRange() -> (Date, Date) {
+        let startDate = self.startOfDay(for: Date())
+        let endDate   = self.date(byAdding: .day, value: 1, to: startDate)!
+        return (startDate, endDate)
+    }
+    
+    func tomorrowRange() -> (Date, Date) {
+        let endDate   = self.startOfDay(for: Date())
+        let startDate = self.date(byAdding: .day, value: +1, to: endDate)!
+        return (startDate, endDate)
+    }
+    
+    func thisWeekRange() -> (Date, Date) {
+        var components = DateComponents()
+        components.weekday = self.firstWeekday
+        
+        let startDate = self.nextDate(after: Date(), matching: components, matchingPolicy: .nextTime, direction: .backward)!
+        let endDate   = self.nextDate(after: startDate, matching: components, matchingPolicy: .nextTime)!
+        return (startDate, endDate)
+    }
+    
+    func thisMonthRange() -> (Date, Date) {
+        var components = self.dateComponents([.era, .year, .month], from: Date())
+        components.day = 1
+        
+        let startDate = self.date(from: components)!
+        let endDate   = self.date(byAdding: .month, value: 1, to: startDate)!
+        
+        return (startDate, endDate)
+    }
 }
 
 
