@@ -18,6 +18,7 @@ class CustomDateView: UIViewController {
     var fromDate = String()
     var toDate = String()
     var datePickerData = String()
+    let event: EventList? = EventList()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,16 @@ class CustomDateView: UIViewController {
         
     }
     
+    @IBAction func okButton(_ sender: Any) {
+        let eventList = self.storyboard?.instantiateViewController(withIdentifier: "eventList") as! EventList
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM dd yyyy"
+        let start  = dateFormatter.date(from: fromDate)!
+        let end = dateFormatter.date(from: toDate)!
+        dismiss(animated: true, completion: nil)
+
+    }
     @IBAction func dismissPopup(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

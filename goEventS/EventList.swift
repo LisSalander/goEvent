@@ -36,10 +36,11 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
   
     var categoryArray = [String]()
     var category = "All"
-    var (startDate, endDate) = Calendar.current.todayRange()
+    var (startDate, endDate) = (Date(), Date())
     var date = ["Today","Tomorrow","Weekend","Custom date"]
     var eventsList = [EventLists]()
     var events:[GoEvent] = []
+    weak var delegate: CustomDateView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +53,7 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
         
         
         self.fetchData()
-        self.entries(from: startDate, to: endDate)
+        
         self.createCategoryArray()
         
         eventListCollectionView.delegate = self
@@ -63,6 +64,9 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
         
         messageButtonOutlet.layer.cornerRadius = 24
         
+
+        
+        self.entries(from: startDate, to: endDate)
     }
 
     @IBAction func categoryList(_ sender: Any) {
@@ -99,7 +103,12 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
             if let dateView = self.storyboard?.instantiateViewController(withIdentifier: "customDateView") as? CustomDateView {
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.window?.rootViewController!.present(dateView, animated: true, completion: nil)
+                eventsList.removeAll()
             }
+            print(startDate,endDate)
+            eventsList.removeAll()
+            self.entries(from: startDate, to: endDate)
+
         default:
             let (startDate, endDate) = Calendar.current.todayRange()
             eventsList.removeAll()
@@ -210,7 +219,7 @@ class EventList:  UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     func entries(from: Date, to: Date){
-        
+        print(from,to)
         for i in 0..<events.count {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

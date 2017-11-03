@@ -50,7 +50,7 @@ class DetailsView : UIViewController, GMSMapViewDelegate{
         detailLocationLabel.text = location
         detailAttendingLabel.text = "no attention"
 
-        detailImage.image = UIImage(data: detailPicture as! Data)
+        detailImage.image = UIImage(data: detailPicture as Data)
         let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 15.0)
         
         detailMapView.camera = camera

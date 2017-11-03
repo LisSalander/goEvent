@@ -113,7 +113,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UICollectionV
         }
     }
     
-    func controlActivityIndecator() {
+    @objc func controlActivityIndecator() {
         self.fetchData()
         print(events)
        // self.mainCollectionView.reloadData()

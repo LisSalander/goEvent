@@ -26,10 +26,10 @@ class LoadData: NSObject{
     func parseData(JSONData: Data){
         do{
             var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as? JSONStandard
-            if let newEvents = readableJSON?["events"]{
+            if let newEvents = readableJSON?["events"] as? [JSONStandard]{
+                
                 for i in 0..<newEvents.count{
-                    let newEvents = newEvents[i] as! JSONStandard
-                    
+                    if let newEvents = newEvents[i] as? JSONStandard {
                     var eventName: String
                     if let _eventName = newEvents["eventName"] as? String {
                         eventName = _eventName
@@ -197,6 +197,7 @@ class LoadData: NSObject{
                 
                         }
                     }
+                }
                 }
             }
              NotificationCenter.default.post(name: NSNotification.Name(rawValue: "control"), object: nil)

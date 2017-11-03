@@ -376,7 +376,7 @@
         <!--Event List-->
         <scene sceneID="5Yb-Lu-hII">
             <objects>
-                <viewController id="D1w-Ut-MP6" customClass="EventList" customModule="goEventS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="eventList" id="D1w-Ut-MP6" customClass="EventList" customModule="goEventS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qMn-o0-nY4"/>
                         <viewControllerLayoutGuide type="bottom" id="bNH-Zg-ls3"/>
@@ -864,6 +864,9 @@
                                             <state key="normal" title="OK">
                                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
+                                            <connections>
+                                                <action selector="okButton:" destination="u9W-k1-GuH" eventType="touchUpInside" id="wzJ-E6-kpg"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P4k-wt-g3Y">
                                             <rect key="frame" x="122" y="312" width="75" height="34"/>
@@ -1090,8 +1093,8 @@
         <image name="save" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="MXN-Of-nrP"/>
         <segue reference="PBf-I6-505"/>
-        <segue reference="m7O-PL-Eg0"/>
         <segue reference="WML-y2-qhe"/>
         <segue reference="In6-U2-6rE"/>
     </inferredMetricsTieBreakers>
