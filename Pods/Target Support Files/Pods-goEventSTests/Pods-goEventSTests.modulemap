@@ -1,0 +1,6 @@
+framework module Pods_goEventSTests {
+  umbrella header "Pods-goEventSTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

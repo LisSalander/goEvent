@@ -8,25 +8,23 @@
 
 import UIKit
 
-class CustomDateView: UIViewController {
+class CustomDateView: UIViewController{
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var controllerOutlet: UISegmentedControl!
     
     let formatter = DateFormatter()
-    var fromDate = String()
-    var toDate = String()
+    static var fromDate = Date()
+    static var toDate = Date()
     var datePickerData = String()
-    let event: EventList? = EventList()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        formatter.dateFormat = "MMMM dd yyyy"
-        datePickerData = formatter.string(from: datePicker.date)
-        fromDate = datePickerData
-        toDate = datePickerData
+        CustomDateView.fromDate = datePicker.date
+        CustomDateView.toDate = datePicker.date
 
         loadDate()
     }
@@ -38,13 +36,13 @@ class CustomDateView: UIViewController {
     }
     
     @IBAction func okButton(_ sender: Any) {
-        let eventList = self.storyboard?.instantiateViewController(withIdentifier: "eventList") as! EventList
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM dd yyyy"
-        let start  = dateFormatter.date(from: fromDate)!
-        let end = dateFormatter.date(from: toDate)!
-        dismiss(animated: true, completion: nil)
+
+       // let eventList = self.storyboard?.instantiateViewController(withIdentifier: "eventList") as! EventList
+       // eventList.startDate = fromDate
+        //eventList.endDate = toDate
+        //self.navigationController?.pushViewController(eventList, animated: true)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+       dismiss(animated: true, completion: nil)
 
     }
     @IBAction func dismissPopup(_ sender: Any) {
@@ -60,17 +58,20 @@ class CustomDateView: UIViewController {
         
         if controllerOutlet.selectedSegmentIndex == 0{
             
-            dateLabel.text = fromDate
-            datePicker.date = formatter.date(from: fromDate)!
+            /*dateLabel.text = fromDate
+            datePicker.date = formatter.date(from: fromDate)!*/
+            dateLabel.text = formatter.string(from: CustomDateView.fromDate)
+            datePicker.date = CustomDateView.fromDate
             
         }
         if controllerOutlet.selectedSegmentIndex == 1{
             
-            dateLabel.text = toDate
-            datePicker.date = formatter.date(from: toDate)!
+            dateLabel.text = formatter.string(from: CustomDateView.toDate)
+            datePicker.date = CustomDateView.toDate
         }
  
     }
+
     
     func loadDate() {
         
@@ -78,13 +79,24 @@ class CustomDateView: UIViewController {
         dateLabel.text = formatter.string(from: datePicker.date)
 
         if controllerOutlet.selectedSegmentIndex == 0{
-            fromDate = formatter.string(from: datePicker.date)
-            print(fromDate)
+            //fromDate = formatter.string(from: datePicker.date)
+            CustomDateView.fromDate = datePicker.date
+            print(CustomDateView.fromDate)
         }
         if controllerOutlet.selectedSegmentIndex == 1{
-            toDate = formatter.string(from: datePicker.date)
-            print(toDate)
+            CustomDateView.toDate = datePicker.date
+            print(CustomDateView.toDate)
         }
     }
     
+   /* override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? EventList {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMMM dd yyyy"
+            let start  = fromDate
+            let end = dateFormatter.date(from: toDate)!
+            destination.startDate = start
+            destination.endDate = end
+        }
+    }*/
 }

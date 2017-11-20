@@ -89,7 +89,7 @@ class LoadData: NSObject{
                         let data = NSData(contentsOf: (imgURL as URL?)!)
                         image = UIImage(data: data! as Data)!
                     } else{
-                        eventPicture = " "
+                        eventPicture = "nil"
                     }
                     
                     var eventCategory: String
@@ -184,7 +184,7 @@ class LoadData: NSObject{
                         event.eventDescription = eventDescription
                         event.eventEndTime = eventEndTime
                         event.eventStartTime = eventStartTime
-                        event.eventPicture = UIImagePNGRepresentation(image) as! NSData
+                        //event.eventPicture = UIImagePNGRepresentation(image)! as NSData
                         event.eventName = eventName
                         event.eventId = eventId
                         event.latitude = latitude
@@ -192,6 +192,9 @@ class LoadData: NSObject{
                         event.street = street
                         event.eventLocation = _eventLocation
                         event.eventTime = eventTime
+                            if image != nil {
+                                event.eventPicture = UIImagePNGRepresentation(image)! as NSData
+                            }
                         
                         AppDelegate.saveContext()
                 
